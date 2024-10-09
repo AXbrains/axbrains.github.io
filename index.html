@@ -69,16 +69,19 @@
             text-align: center;
             width: 90%;
             max-width: 500px; /* Limita l'amplada màxima */
+            box-sizing: border-box;
         }
 
         #email-form {
             display: flex;
             flex-direction: column;
-            align-items: stretch;
+            align-items: center; /* Centra els elements */
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         #email-form label {
@@ -87,6 +90,7 @@
             margin-bottom: 15px;
             font-weight: bold;
             font-size: 1em;
+            width: 100%;
         }
 
         #email-form input,
@@ -97,6 +101,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             width: 100%;
+            max-width: 400px; /* Limita l'amplada */
             box-sizing: border-box;
             transition: border-color 0.3s ease;
         }
@@ -108,7 +113,7 @@
         }
 
         #email-form button {
-            padding: 12px;
+            padding: 12px 24px; /* Padding vertical i horitzontal */
             font-size: 1em;
             cursor: pointer;
             background-color: #000; /* Botó negre */
@@ -117,6 +122,9 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
             margin-top: 10px;
+            max-width: 200px; /* Limita l'amplada del botó */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         #email-form button:hover {
@@ -156,9 +164,15 @@
                 font-size: 0.9em;
             }
 
+            #email-form input,
+            #email-form textarea {
+                max-width: 100%; /* Permet que els camps s'ajustin al contenidor */
+            }
+
             #email-form button {
-                padding: 10px;
+                padding: 10px 20px; /* Ajusta el padding per a mòbils */
                 font-size: 0.9em;
+                max-width: 100%; /* Permet que el botó s'ajusti al contenidor */
             }
 
             #confirmation {
