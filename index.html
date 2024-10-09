@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>AXbrains</title>
@@ -22,13 +22,18 @@
             font-size: 2em;
             margin: 20px;
             min-height: 2.5em; /* Per evitar el salt de contingut durant l'escriptura */
+            position: relative;
         }
         #cursor {
             display: inline-block;
-            width: 10px;
+            width: 2px;
+            height: 1em;
             background-color: black;
-            margin-left: 2px;
+            margin-left: 5px;
             animation: blink 0.7s infinite;
+            position: absolute;
+            right: -10px; /* Ajusta la posició del cursor segons sigui necessari */
+            top: 0;
         }
         @keyframes blink {
             0%, 50% {
@@ -82,6 +87,7 @@
             margin-top: 10px;
             color: green;
             font-weight: bold;
+            font-size: 1.2em;
         }
     </style>
 </head>
@@ -91,22 +97,22 @@
         <img src="/logo.png" alt="AXbrains Logo" width="200">
     </div>
     <div id="typing-effect">
-        <span id="text"></span><span id="cursor">|</span>
+        <span id="text"></span><span id="cursor"></span>
     </div>
     <div id="waiting-list">
-        <h2>Unir-se a la llista d'espera</h2>
+        <h2>Join the Waiting List</h2>
         <form id="email-form" action="https://formspree.io/f/mvgopyrr" method="POST">
             <label>
-                El teu correu electrònic:
-                <input type="email" name="email" placeholder="Introdueix el teu correu electrònic" required>
+                Your Email:
+                <input type="email" name="email" placeholder="Enter your email" required>
             </label>
             <label>
-                Missatge:
-                <textarea name="message" placeholder="Introdueix el teu missatge" rows="4"></textarea>
+                Your Message:
+                <textarea name="message" placeholder="Enter your message" rows="4"></textarea>
             </label>
             <!-- Pots afegir més camps si cal -->
-            <button type="submit">Enviar</button>
-            <div id="confirmation">Gràcies! El teu correu ha estat enviat.</div>
+            <button type="submit">Send</button>
+            <div id="confirmation">Thank you! Your message has been sent.</div>
         </form>
     </div>
 
@@ -131,12 +137,18 @@
                     count++;
                     if (count >= texts.length) {
                         typingCompleted = true;
+                        document.getElementById('cursor').style.display = 'none'; // Oculta el cursor després de completar
                         return;
                     }
                 }
             } else {
                 index++;
                 if (index === currentText.length) {
+                    if (count === texts.length - 1) {
+                        // Si és l'últim missatge, no s'esborri
+                        typingCompleted = true;
+                        return;
+                    }
                     isDeleting = true;
                     setTimeout(type, 1000); // Pausa després d'escriure completament
                     return;
@@ -177,13 +189,13 @@
                         if (Object.hasOwn(data, 'errors')) {
                             throw new Error(data['errors'].map(error => error['message']).join(", "));
                         } else {
-                            throw new Error("Hi ha hagut un error en l'enviament.");
+                            throw new Error("There was an error sending your message.");
                         }
                     });
                 }
             })
             .catch(error => {
-                alert("Hi ha hagut un error: " + error.message);
+                alert("There was an error: " + error.message);
             });
         });
     </script>
