@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <title>AXbrains</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Meta etiqueta per a responsivitat -->
-    <!-- Fonts modernes de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Estils CSS Moderns i Responsive */
+        /* Estils CSS Moderns */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Roboto', sans-serif; /* Fonts modernes */
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -34,13 +33,13 @@
         #typing-effect {
             font-size: 2em;
             margin: 20px;
-            min-height: 2.5em; /* Per evitar el salt de contingut durant l'escriptura */
+            min-height: 2.5em;
             display: flex;
             align-items: center;
             justify-content: center;
             white-space: nowrap;
-            position: relative; /* Necessari per posicionar el cursor */
-            padding-right: 15px; /* Espai extra per al cursor */
+            position: relative;
+            padding-right: 15px;
         }
 
         /* Cursor com a pseudo-element */
@@ -51,7 +50,7 @@
             height: 1em;
             background-color: black;
             animation: blink 0.7s infinite;
-            margin-left: 5px; /* Espai entre text i cursor */
+            margin-left: 5px;
         }
 
         @keyframes blink {
@@ -67,21 +66,22 @@
         #waiting-list {
             margin: 20px;
             text-align: center;
-            width: 90%;
-            max-width: 500px; /* Limita l'amplada màxima */
+            width: 100%;
+            max-width: 500px;
             box-sizing: border-box;
         }
 
         #email-form {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centra els elements */
+            align-items: center;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
+            width: 320px; /* Amplada fixa */
             box-sizing: border-box;
+            margin: 0 auto; /* Centre el formulari */
         }
 
         #email-form label {
@@ -101,7 +101,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             width: 100%;
-            max-width: 400px; /* Limita l'amplada */
             box-sizing: border-box;
             transition: border-color 0.3s ease;
         }
@@ -113,22 +112,20 @@
         }
 
         #email-form button {
-            padding: 12px 24px; /* Padding vertical i horitzontal */
+            padding: 12px;
             font-size: 1em;
             cursor: pointer;
-            background-color: #000; /* Botó negre */
-            color: #fff; /* Text blanc */
+            background-color: #000;
+            color: #fff;
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s ease;
-            margin-top: 10px;
-            max-width: 200px; /* Limita l'amplada del botó */
             width: 100%;
-            box-sizing: border-box;
+            max-width: 150px;
         }
 
         #email-form button:hover {
-            background-color: #333; /* Més clar en hover */
+            background-color: #333;
         }
 
         /* Estil per al missatge de confirmació */
@@ -140,54 +137,10 @@
             font-size: 1.2em;
             text-align: center;
         }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            #typing-effect {
-                font-size: 1.5em;
-                margin: 15px;
-                width: 100%;
-                padding-right: 10px; /* Ajusta el padding per a mòbils */
-            }
-
-            #waiting-list {
-                width: 100%;
-                max-width: none; /* Elimina el max-width en pantalles petites */
-            }
-
-            #email-form {
-                padding: 15px;
-                width: 100%;
-            }
-
-            #email-form label {
-                font-size: 0.9em;
-            }
-
-            #email-form input,
-            #email-form textarea {
-                max-width: 100%; /* Permet que els camps s'ajustin al contenidor */
-            }
-
-            #email-form button {
-                padding: 10px 20px; /* Ajusta el padding per a mòbils */
-                font-size: 0.9em;
-                max-width: 100%; /* Permet que el botó s'ajusti al contenidor */
-            }
-
-            #confirmation {
-                font-size: 1em;
-            }
-
-            #logo img {
-                width: 150px; /* Ajusta la mida per a pantalles petites */
-            }
-        }
     </style>
 </head>
 <body>
     <div id="logo">
-        <!-- Afegeix aquí el logo de la teva empresa -->
         <img src="/logo.png" alt="AXbrains Logo" width="200">
     </div>
     <div id="typing-effect">
@@ -211,15 +164,15 @@
 
     <script>
         // Efecte d'Escriptura Modificat
-        const texts = ["AI is the future ", "AI is now "];
+        const texts = ["AI is the future", "AI is now"];
         let count = 0;
         let index = 0;
         let currentText = '';
         let isDeleting = false;
-        let typingCompleted = false; // Indicador per aturar l'efecte després de la segona frase
+        let typingCompleted = false;
 
         function type() {
-            if (typingCompleted) return; // Atura l'efecte si ja hem completat
+            if (typingCompleted) return;
 
             currentText = texts[count];
 
@@ -230,7 +183,6 @@
                     count++;
                     if (count >= texts.length) {
                         typingCompleted = true;
-                        // Remove the cursor by adding a class
                         document.getElementById('typing-effect').classList.add('typing-complete');
                         return;
                     }
@@ -239,14 +191,12 @@
                 index++;
                 if (index === currentText.length) {
                     if (count === texts.length - 1) {
-                        // Si és l'últim missatge, atura l'escriptura
                         typingCompleted = true;
-                        // Remove the cursor by adding a class
                         document.getElementById('typing-effect').classList.add('typing-complete');
                         return;
                     }
                     isDeleting = true;
-                    setTimeout(type, 1000); // Pausa després d'escriure completament
+                    setTimeout(type, 1000);
                     return;
                 }
             }
@@ -266,13 +216,11 @@
         const emailInput = document.getElementById('email');
         const messageLabel = document.getElementById('message-label');
 
-        // Funció per validar l'email
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(String(email).toLowerCase());
         }
 
-        // Event listener per mostrar amagar el camp de missatge
         emailInput.addEventListener('input', function() {
             if (validateEmail(emailInput.value)) {
                 messageLabel.style.display = 'flex';
@@ -282,7 +230,7 @@
         });
 
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevé el comportament per defecte del formulari
+            event.preventDefault();
 
             const formData = new FormData(form);
 
