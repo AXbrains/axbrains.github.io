@@ -40,17 +40,18 @@
             justify-content: center;
             white-space: nowrap;
             position: relative; /* Necessari per posicionar el cursor */
+            padding-right: 15px; /* Espai extra per al cursor */
         }
 
         /* Cursor com a pseudo-element */
         #typing-effect::after {
             content: '|';
             display: inline-block;
-            margin-left: 10px; /* Espai entre text i cursor */
-            width: 1px;
+            width: 2px;
             height: 1em;
             background-color: black;
             animation: blink 0.7s infinite;
+            margin-left: 5px; /* Espai entre text i cursor */
         }
 
         @keyframes blink {
@@ -138,6 +139,7 @@
                 font-size: 1.5em;
                 margin: 15px;
                 width: 100%;
+                padding-right: 10px; /* Ajusta el padding per a mòbils */
             }
 
             #waiting-list {
