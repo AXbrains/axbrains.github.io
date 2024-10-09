@@ -4,26 +4,33 @@
     <meta charset="UTF-8">
     <title>AXbrains</title>
     <style>
-        /* Estils CSS */
+        /* Estils CSS Moderns i Responsive */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            background-color: #f0f2f5;
+            color: #333;
         }
+
         #logo {
             margin-top: 50px;
+            text-align: center;
         }
+
         #typing-effect {
             font-size: 2em;
             margin: 20px;
             min-height: 2.5em; /* Per evitar el salt de contingut durant l'escriptura */
             position: relative;
+            display: flex;
+            align-items: center;
         }
+
         #cursor {
             display: inline-block;
             width: 2px;
@@ -31,10 +38,10 @@
             background-color: black;
             margin-left: 5px;
             animation: blink 0.7s infinite;
-            position: absolute;
-            right: -10px; /* Ajusta la posició del cursor segons sigui necessari */
-            top: 0;
+            /* Posició relativa per evitar solapaments */
+            position: relative;
         }
+
         @keyframes blink {
             0%, 50% {
                 opacity: 1;
@@ -43,21 +50,32 @@
                 opacity: 0;
             }
         }
+
         #waiting-list {
             margin: 20px;
             text-align: center;
+            width: 90%;
+            max-width: 500px;
         }
+
         #email-form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         #email-form label {
             display: flex;
             flex-direction: column;
-            margin-bottom: 10px;
-            width: 300px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1em;
         }
+
         #email-form input,
         #email-form textarea {
             padding: 10px;
@@ -67,27 +85,64 @@
             border-radius: 4px;
             width: 100%;
             box-sizing: border-box;
+            transition: border-color 0.3s ease;
         }
+
+        #email-form input:focus,
+        #email-form textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
         #email-form button {
-            padding: 10px 20px;
+            padding: 12px;
             font-size: 1em;
             cursor: pointer;
-            background-color: #007BFF;
-            color: white;
+            background-color: #000;
+            color: #fff;
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
+
         #email-form button:hover {
-            background-color: #0056b3;
+            background-color: #333;
         }
+
         /* Estil per el missatge de confirmació */
         #confirmation {
             display: none;
             margin-top: 10px;
             color: green;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            #typing-effect {
+                font-size: 1.5em;
+                margin: 15px;
+            }
+
+            #email-form {
+                padding: 15px;
+            }
+
+            #email-form label {
+                font-size: 0.9em;
+            }
+
+            #email-form button {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            #confirmation {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -103,14 +158,13 @@
         <h2>Join the Waiting List</h2>
         <form id="email-form" action="https://formspree.io/f/mvgopyrr" method="POST">
             <label>
-                Your Email:
-                <input type="email" name="email" placeholder="Enter your email" required>
+                email
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
             </label>
-            <label>
-                Your Message:
-                <textarea name="message" placeholder="Enter your message" rows="4"></textarea>
+            <label id="message-label" style="display: none;">
+                message?
+                <textarea name="message" id="message" placeholder="Enter your message" rows="4"></textarea>
             </label>
-            <!-- Pots afegir més camps si cal -->
             <button type="submit">Send</button>
             <div id="confirmation">Thank you! Your message has been sent.</div>
         </form>
@@ -147,6 +201,7 @@
                     if (count === texts.length - 1) {
                         // Si és l'últim missatge, no s'esborri
                         typingCompleted = true;
+                        document.getElementById('cursor').style.display = 'none'; // Oculta el cursor
                         return;
                     }
                     isDeleting = true;
@@ -167,6 +222,23 @@
         // Gestió del Formulari amb Formspree
         const form = document.getElementById('email-form');
         const confirmation = document.getElementById('confirmation');
+        const emailInput = document.getElementById('email');
+        const messageLabel = document.getElementById('message-label');
+
+        // Funció per validar l'email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        // Event listener per mostrar amagar el camp de missatge
+        emailInput.addEventListener('input', function() {
+            if (validateEmail(emailInput.value)) {
+                messageLabel.style.display = 'flex';
+            } else {
+                messageLabel.style.display = 'none';
+            }
+        });
 
         form.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevé el comportament per defecte del formulari
@@ -183,6 +255,7 @@
             .then(response => {
                 if (response.ok) {
                     form.reset();
+                    messageLabel.style.display = 'none';
                     confirmation.style.display = 'block';
                 } else {
                     return response.json().then(data => {
