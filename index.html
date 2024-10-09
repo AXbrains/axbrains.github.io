@@ -1,1 +1,74 @@
-"Hello World" 
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>AXbrains</title>
+    <style>
+        /* Aquí aniran els teus estils CSS */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #logo {
+            margin-top: 50px;
+        }
+        #typing-effect {
+            font-size: 2em;
+            margin: 20px;
+        }
+        #cursor {
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            50.01%, 100% {
+                opacity: 0;
+            }
+        }
+        #waiting-list {
+            margin: 20px;
+        }
+        #email-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #email-input {
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        #email-form button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo">
+        <!-- Afegeix aquí el logo de la teva empresa -->
+        <img src="ruta/al/teu/logo.png" alt="AXbrains Logo" width="200">
+    </div>
+    <div id="typing-effect">
+        <span id="text"></span><span id="cursor">|</span>
+    </div>
+    <div id="waiting-list">
+        <h2>Join the waiting list</h2>
+        <form id="email-form">
+            <input type="email" id="email-input" placeholder="Enter your email" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Aquí anirà el teu JavaScript
+    </script>
+</body>
+</html>
