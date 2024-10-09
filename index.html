@@ -38,24 +38,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: nowrap; /* No wrap */
-            padding-right: 10px; /* Extra espai per al cursor */
+            white-space: nowrap;
+            position: relative; /* Necessari per posicionar el cursor */
         }
 
-        #text {
-            white-space: nowrap;
-            border-right: 2px solid black; /* Cursor com a border-right */
-            padding-right: 5px;
+        /* Cursor com a pseudo-element */
+        #typing-effect::after {
+            content: '|';
+            display: inline-block;
+            margin-left: 10px; /* Espai entre text i cursor */
+            width: 1px;
+            height: 1em;
+            background-color: black;
             animation: blink 0.7s infinite;
         }
 
         @keyframes blink {
-            0%, 50% {
-                opacity: 1;
-            }
-            50.01%, 100% {
-                opacity: 0;
-            }
+            0%, 50% { opacity: 1; }
+            50.01%, 100% { opacity: 0; }
+        }
+
+        /* Classe per aturar el cursor */
+        #typing-effect.typing-complete::after {
+            display: none;
         }
 
         #waiting-list {
@@ -132,7 +137,6 @@
             #typing-effect {
                 font-size: 1.5em;
                 margin: 15px;
-                padding-right: 10px; /* Extra padding per a mòbils */
                 width: 100%;
             }
 
@@ -210,8 +214,8 @@
                     count++;
                     if (count >= texts.length) {
                         typingCompleted = true;
-                        // Remove the cursor by removing the border-right
-                        document.getElementById('text').style.borderRight = 'none';
+                        // Remove the cursor by adding a class
+                        document.getElementById('typing-effect').classList.add('typing-complete');
                         return;
                     }
                 }
@@ -219,14 +223,14 @@
                 index++;
                 if (index === currentText.length) {
                     if (count === texts.length - 1) {
-                        // If it's the last message, stop typing
+                        // Si és l'últim missatge, atura l'escriptura
                         typingCompleted = true;
-                        // Remove the cursor by removing the border-right
-                        document.getElementById('text').style.borderRight = 'none';
+                        // Remove the cursor by adding a class
+                        document.getElementById('typing-effect').classList.add('typing-complete');
                         return;
                     }
                     isDeleting = true;
-                    setTimeout(type, 1000); // Pause after typing
+                    setTimeout(type, 1000); // Pausa després d'escriure completament
                     return;
                 }
             }
