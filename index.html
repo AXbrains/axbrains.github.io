@@ -60,15 +60,50 @@
         <span id="text"></span><span id="cursor">|</span>
     </div>
     <div id="waiting-list">
-        <h2>Join the waiting list</h2>
+        <h2>Unir-se a la llista d'espera</h2>
         <form id="email-form">
-            <input type="email" id="email-input" placeholder="Enter your email" required>
-            <button type="submit">Submit</button>
+            <input type="email" id="email-input" placeholder="Introdueix el teu correu electrònic" required>
+            <button type="submit">Enviar</button>
         </form>
     </div>
 
     <script>
-        // Aquí anirà el teu JavaScript
+        const texts = ["Benvingut a AXbrains!", "Estem preparant alguna cosa gran.", "Subscriu-te per estar informat!"];
+        let count = 0;
+        let index = 0;
+        let currentText = '';
+        let isDeleting = false;
+
+        function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+
+            if (isDeleting) {
+                index--;
+                if (index < 0) {
+                    isDeleting = false;
+                    count++;
+                }
+            } else {
+                index++;
+                if (index === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(() => {
+                        type();
+                    }, 1000);
+                    return;
+                }
+            }
+
+            document.getElementById('text').textContent = currentText.substring(0, index);
+
+            let typingSpeed = isDeleting ? 50 : 100;
+            setTimeout(type, typingSpeed);
+        }
+
+        type();
     </script>
 </body>
 </html>
