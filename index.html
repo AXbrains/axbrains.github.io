@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>AXbrains</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Afegida la meta etiqueta viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Meta etiqueta per a responsivitat -->
+    <!-- Fonts modernes de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Estils CSS Moderns i Responsive */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif; /* Fonts modernes */
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -23,6 +25,12 @@
             text-align: center;
         }
 
+        #logo img {
+            width: 200px;
+            max-width: 100%;
+            height: auto;
+        }
+
         #typing-effect {
             font-size: 2em;
             margin: 20px;
@@ -30,21 +38,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap; /* Permet que el text es quedi bé en pantalles petites */
+            flex-wrap: nowrap; /* No wrap */
+            padding-right: 10px; /* Extra espai per al cursor */
         }
 
         #text {
-            /* No necessitem canvis específics aquí */
-        }
-
-        #cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background-color: black;
-            margin-left: 5px;
+            white-space: nowrap;
+            border-right: 2px solid black; /* Cursor com a border-right */
+            padding-right: 5px;
             animation: blink 0.7s infinite;
-            /* Eliminar posicionament absolut */
         }
 
         @keyframes blink {
@@ -103,7 +105,7 @@
             padding: 12px;
             font-size: 1em;
             cursor: pointer;
-            background-color: #000; /* Canviat a negre */
+            background-color: #000; /* Botó negre */
             color: #fff; /* Text blanc */
             border: none;
             border-radius: 4px;
@@ -115,7 +117,7 @@
             background-color: #333; /* Més clar en hover */
         }
 
-        /* Estil per el missatge de confirmació */
+        /* Estil per al missatge de confirmació */
         #confirmation {
             display: none;
             margin-top: 10px;
@@ -130,10 +132,18 @@
             #typing-effect {
                 font-size: 1.5em;
                 margin: 15px;
+                padding-right: 10px; /* Extra padding per a mòbils */
+                width: 100%;
+            }
+
+            #waiting-list {
+                width: 100%;
+                max-width: none; /* Elimina el max-width en pantalles petites */
             }
 
             #email-form {
                 padding: 15px;
+                width: 100%;
             }
 
             #email-form label {
@@ -148,6 +158,10 @@
             #confirmation {
                 font-size: 1em;
             }
+
+            #logo img {
+                width: 150px; /* Ajusta la mida per a pantalles petites */
+            }
         }
     </style>
 </head>
@@ -157,18 +171,18 @@
         <img src="/logo.png" alt="AXbrains Logo" width="200">
     </div>
     <div id="typing-effect">
-        <span id="text"></span><span id="cursor"></span>
+        <span id="text"></span>
     </div>
     <div id="waiting-list">
         <h2>Join the Waiting List</h2>
         <form id="email-form" action="https://formspree.io/f/mvgopyrr" method="POST">
-            <label>
+            <label for="email">
                 email
-                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required aria-required="true">
             </label>
-            <label id="message-label" style="display: none;">
+            <label for="message" id="message-label" style="display: none;">
                 message?
-                <textarea name="message" id="message" placeholder="Enter your message" rows="4"></textarea>
+                <textarea name="message" id="message" placeholder="Enter your message" rows="4" aria-required="false"></textarea>
             </label>
             <button type="submit">Send</button>
             <div id="confirmation">Thank you! Your message has been sent.</div>
@@ -196,7 +210,8 @@
                     count++;
                     if (count >= texts.length) {
                         typingCompleted = true;
-                        document.getElementById('cursor').style.display = 'none'; // Oculta el cursor després de completar
+                        // Remove the cursor by removing the border-right
+                        document.getElementById('text').style.borderRight = 'none';
                         return;
                     }
                 }
@@ -204,13 +219,14 @@
                 index++;
                 if (index === currentText.length) {
                     if (count === texts.length - 1) {
-                        // Si és l'últim missatge, no s'esborri
+                        // If it's the last message, stop typing
                         typingCompleted = true;
-                        document.getElementById('cursor').style.display = 'none'; // Oculta el cursor
+                        // Remove the cursor by removing the border-right
+                        document.getElementById('text').style.borderRight = 'none';
                         return;
                     }
                     isDeleting = true;
-                    setTimeout(type, 1000); // Pausa després d'escriure completament
+                    setTimeout(type, 1000); // Pause after typing
                     return;
                 }
             }
