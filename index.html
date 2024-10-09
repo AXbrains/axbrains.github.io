@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>AXbrains</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Afegida la meta etiqueta viewport -->
     <style>
         /* Estils CSS Moderns i Responsive */
         body {
@@ -26,9 +27,14 @@
             font-size: 2em;
             margin: 20px;
             min-height: 2.5em; /* Per evitar el salt de contingut durant l'escriptura */
-            position: relative;
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex-wrap: wrap; /* Permet que el text es quedi bé en pantalles petites */
+        }
+
+        #text {
+            /* No necessitem canvis específics aquí */
         }
 
         #cursor {
@@ -38,8 +44,7 @@
             background-color: black;
             margin-left: 5px;
             animation: blink 0.7s infinite;
-            /* Posició relativa per evitar solapaments */
-            position: relative;
+            /* Eliminar posicionament absolut */
         }
 
         @keyframes blink {
@@ -55,7 +60,7 @@
             margin: 20px;
             text-align: center;
             width: 90%;
-            max-width: 500px;
+            max-width: 500px; /* Limita l'amplada màxima */
         }
 
         #email-form {
@@ -98,8 +103,8 @@
             padding: 12px;
             font-size: 1em;
             cursor: pointer;
-            background-color: #000;
-            color: #fff;
+            background-color: #000; /* Canviat a negre */
+            color: #fff; /* Text blanc */
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s ease;
@@ -107,7 +112,7 @@
         }
 
         #email-form button:hover {
-            background-color: #333;
+            background-color: #333; /* Més clar en hover */
         }
 
         /* Estil per el missatge de confirmació */
@@ -116,7 +121,7 @@
             margin-top: 10px;
             color: green;
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.2em;
             text-align: center;
         }
 
