@@ -21,7 +21,6 @@
         #typing-effect { font-size: 2em; margin: 20px; display: flex; align-items: center; justify-content: center; white-space: nowrap; padding-right: 15px; }
         #typing-effect::after { content: '|'; width: 2px; height: 1em; background-color: black; animation: blink 0.7s infinite; margin-left: 5px; }
         #typing-effect.typing-complete::after { display: none; }
-        @keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
         #final-text { font-size: 1.5em; color: #555; margin-top: 10px; display: none; }
         #email-form { display: flex; flex-direction: column; align-items: center; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 320px; margin: 0 auto; }
         #email-form label { flex-direction: column; margin-bottom: 15px; font-weight: bold; font-size: 1em; width: 100%; }
@@ -49,7 +48,9 @@
         function type() {
             const typingEffect = document.getElementById('typing-effect');
             const finalText = document.getElementById('final-text');
+            
             if (count >= texts.length) {
+                // Quan es completa l'efecte de typing, mostra el text final
                 typingEffect.classList.add('typing-complete');
                 finalText.style.display = 'block';
                 return;
@@ -60,12 +61,16 @@
                 ? currentText.substring(0, index--) 
                 : currentText.substring(0, index++);
             
-            if (!isDeleting && index === currentText.length) setTimeout(() => (isDeleting = true), 1000);
-            else if (isDeleting && index === 0) (isDeleting = false, count++);
+            if (!isDeleting && index === currentText.length) {
+                setTimeout(() => (isDeleting = true), 1000);
+            } else if (isDeleting && index === 0) {
+                isDeleting = false;
+                count++;
+            }
             setTimeout(type, isDeleting ? 50 : 100);
         }
+
         type();
-        
 
         document.getElementById('email-form').addEventListener('submit', function(event) {
             event.preventDefault();
