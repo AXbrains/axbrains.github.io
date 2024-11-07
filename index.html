@@ -18,28 +18,127 @@
         }
         #logo { margin-top: 50px; text-align: center; }
         #logo img { width: 200px; max-width: 100%; height: auto; }
-        #typing-effect { font-size: 2em; margin: 20px; display: flex; align-items: center; justify-content: center; white-space: nowrap; padding-right: 15px; }
-        #typing-effect::after { content: '|'; width: 2px; height: 1em; background-color: black; animation: blink 0.7s infinite; margin-left: 5px; }
+        #typing-effect {
+            font-size: 2em;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            padding-right: 15px;
+        }
+        #typing-effect::after {
+            content: '|';
+            width: 2px;
+            height: 1em;
+            background-color: black;
+            animation: blink 0.7s infinite;
+            margin-left: 5px;
+        }
         #typing-effect.typing-complete::after { display: none; }
-        #final-text { font-size: 1.5em; color: #555; margin-top: 10px; text-align: center; }
-        #email-form { display: flex; flex-direction: column; align-items: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 280px; margin: 20px auto; }
-        #email-form label { margin-bottom: 10px; font-weight: bold; font-size: 1em; width: 100%; text-align: left; }
-        #email-form input { padding: 8px; font-size: 1em; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; width: 100%; transition: border-color 0.3s ease; }
-        #email-form input:focus { border-color: #007BFF; outline: none; }
-        #email-form button { padding: 10px; font-size: 1em; cursor: pointer; background-color: #000; color: #fff; border: none; border-radius: 4px; transition: background-color 0.3s ease; width: 100%; max-width: 100px; }
-        #email-form button:hover { background-color: #333; }
-        #confirmation { display: none; margin-top: 10px; color: green; font-weight: bold; font-size: 1.2em; text-align: center; }
+        @keyframes blink { 
+            0%, 50% { opacity: 1; } 
+            50.01%, 100% { opacity: 0; } 
+        }
+        #final-text { font-size: 1.5em; color: #555; margin-top: 10px; }
+        #email-form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 320px;
+            margin: 20px auto;
+        }
+        #email-form-container h2 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #333;
+            text-align: center;
+        }
+        #email-form label {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1em;
+            width: 100%;
+        }
+        #email-form input {
+            padding: 8px;
+            font-size: 1em;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: border-color 0.3s ease;
+        }
+        #email-form input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        #email-form .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        #email-form .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+        #email-form button {
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 150px;
+            align-self: center;
+        }
+        #email-form button:hover {
+            background-color: #333;
+        }
+        #confirmation {
+            display: none;
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div id="logo"><img src="/logo.png" alt="AXbrains Logo" width="200"></div>
-    <div id="typing-effect"><span id="text"></span></div>
+    <div id="logo">
+        <img src="/logo.png" alt="AXbrains Logo" width="200">
+    </div>
+    <div id="typing-effect">
+        <span id="text"></span>
+    </div>
     <div id="final-text">Automate, or be automated.</div>
-    <form id="email-form" action="https://formspree.io/f/mvgopyrr" method="POST">
-        <label>Email <input type="email" name="email" id="email" placeholder="Enter your email" required></label>
-        <button type="submit">Send</button>
-        <div id="confirmation">Thank you! Your message has been sent.</div>
-    </form>
+    <div id="email-form-container">
+        <h2>Join the waiting list</h2>
+        <form id="email-form" action="https://formspree.io/f/mvgopyrr" method="POST">
+            <label for="email">Email
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            </label>
+            <div class="checkbox-container">
+                <input type="checkbox" name="messages" id="messages">
+                <label for="messages" style="font-weight: normal; font-size: 0.9em;">I want to receive messages</label>
+            </div>
+            <button type="submit">Send</button>
+            <div id="confirmation">Thank you! Your message has been sent.</div>
+        </form>
+    </div>
 
     <script>
         const texts = ["AI is the future", "AI is now"];
@@ -47,23 +146,20 @@
 
         function type() {
             const typingEffect = document.getElementById('typing-effect');
+            const finalText = document.getElementById('final-text');
+            const currentText = texts[count % texts.length];
             
-            if (count >= texts.length) {
-                typingEffect.classList.add('typing-complete');
-                return;
-            }
-
-            let currentText = texts[count];
             document.getElementById('text').textContent = isDeleting 
-                ? currentText.substring(0, index--) 
+                ? currentText.substring(0, index--)
                 : currentText.substring(0, index++);
-            
+
             if (!isDeleting && index === currentText.length) {
-                setTimeout(() => (isDeleting = true), 1000);
+                setTimeout(() => isDeleting = true, 1000);
             } else if (isDeleting && index === 0) {
                 isDeleting = false;
                 count++;
             }
+
             setTimeout(type, isDeleting ? 50 : 100);
         }
 
@@ -72,10 +168,29 @@
         document.getElementById('email-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
-            fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
-                .then(response => response.ok ? this.reset() || (document.getElementById('confirmation').style.display = 'block') 
-                                               : Promise.reject(response.json()))
-                .catch(() => alert("There was an error sending your message."));
+            fetch(this.action, { 
+                method: 'POST', 
+                body: formData, 
+                headers: { 'Accept': 'application/json' } 
+            })
+            .then(response => {
+                if (response.ok) {
+                    this.reset();
+                    document.getElementById('confirmation').style.display = 'block';
+                    // Opcional: Mostrar un missatge addicional si vol rebre missatges
+                    const wantsMessages = formData.get('messages');
+                    if (wantsMessages) {
+                        alert("Thank you for opting to receive messages!");
+                    }
+                } else {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'An error occurred.');
+                    });
+                }
+            })
+            .catch(error => {
+                alert("There was an error sending your message: " + error.message);
+            });
         });
     </script>
 </body>
